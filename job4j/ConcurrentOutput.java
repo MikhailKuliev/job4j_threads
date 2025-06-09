@@ -1,4 +1,4 @@
-package org.example.job4j;
+package job4j;
 
 
 
