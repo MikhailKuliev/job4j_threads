@@ -1,4 +1,4 @@
-package org.example.job4j.concurrent;
+package concurrent.job4j;
 
 public class ConcurrentOutput {
     public static void main(String[] args) {
