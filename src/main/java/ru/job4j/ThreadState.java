@@ -11,7 +11,7 @@ public class ThreadState {
         Thread second = new Thread(
                 () -> System.out.println(Thread.currentThread().getName()),
 
-                "second"  //2 нить
+                "second"  // 2 нить
         );
         first.start();
         second.start();
