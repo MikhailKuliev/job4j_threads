@@ -1,5 +1,3 @@
-package ru.job4j.concurent;
-
 public class Wget {
     public static void main(String[] args) {
 
