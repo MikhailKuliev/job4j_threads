@@ -11,7 +11,7 @@ public class ConcurrentOutput {
                 "second"
         );
         second.start();
-        // главный поток
+        //  главный поток
         System.out.println(Thread.currentThread().getName());
 
     }
