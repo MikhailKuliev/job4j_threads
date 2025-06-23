@@ -1,4 +1,4 @@
-package ru.job4j;
+package ru.job4j.concurent;
 public class ConsoleProgress {
     public static void main(String[] args) throws InterruptedException {
         Thread ThreadStop = new Thread(() ->{
