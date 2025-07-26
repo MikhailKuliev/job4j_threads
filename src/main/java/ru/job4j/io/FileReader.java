@@ -4,7 +4,6 @@ package ru.job4j.io;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.util.function.Predicate;
 
 public final class FileReader {
@@ -27,14 +26,7 @@ public final class FileReader {
         }
         return output.toString();
     }
-    public String GetContent() throws IOException {
-        return new String(Files.readAllBytes(file.toPath()), StandardCharsets.UTF_8);
-    }
-    public String GetContentWithoutUnicode() throws IOException {
-
-        return content(c ->c<0x80);
-    }
-    public static class FileWriter{
+    public static final class FileWriter{
         private final File file;
         public FileWriter(File file) {
             this.file = file;
