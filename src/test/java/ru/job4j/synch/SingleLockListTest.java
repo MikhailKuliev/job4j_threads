@@ -1,4 +1,4 @@
-package synch;
+package ru.job4j.synch;
 
 
 import org.junit.jupiter.api.Test;
