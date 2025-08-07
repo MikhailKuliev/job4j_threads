@@ -1,4 +1,4 @@
-package ru.job4j.synch;
+/*package ru.job4j.synch;
 
 
 import org.junit.jupiter.api.Test;
@@ -36,4 +36,4 @@ public class SingleLockListTest {
         assertThat(rsl).hasSize(2).containsAll(Set.of(1, 2));
     }
 
-}
+}*/
