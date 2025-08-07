@@ -8,15 +8,17 @@ import java.util.function.Predicate;
 
 public final class FileReader {
     private final File file;
+
     public FileReader(File file) {
         this.file = file;
     }
+
     public String content(Predicate<Character> filter) throws IOException {
         StringBuilder output = new StringBuilder();
         try (InputStream input = new BufferedInputStream(new FileInputStream(file));
              Reader reader = new InputStreamReader(input, StandardCharsets.UTF_8)) {
             int data;
-            while ((data = reader.read()) !=-1) {
+            while ((data = reader.read()) !=-1 ) {
 
                 char c = (char) data;
                 if (filter.test(c)) {
@@ -24,10 +26,13 @@ public final class FileReader {
                 }
             }
         }
+
         return output.toString();
     }
-    public static final class FileWriter{
+
+    public static final class FileWriter {
         private final File file;
+
         public FileWriter(File file) {
             this.file = file;
 

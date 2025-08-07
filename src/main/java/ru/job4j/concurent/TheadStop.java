@@ -1,6 +1,6 @@
 package ru.job4j.concurent;
 
-public class TheadStooop {
+public class TheadStop {
     public static void main(String[] args) throws InterruptedException {
         Thread progress = new Thread(
                 () -> {
@@ -12,7 +12,8 @@ public class TheadStooop {
                             Thread.currentThread().interrupt();
 
                         }
-                    }System.out.println(Thread.currentThread().isInterrupted());
+                    }
+                    System.out.println(Thread.currentThread().isInterrupted());
                     System.out.println(Thread.currentThread().getState());
                 }
         );

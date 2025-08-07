@@ -1,7 +1,5 @@
 package ru.job4j;
 
-
-
 public class Buffer {
     private StringBuilder buffer = new StringBuilder();
 

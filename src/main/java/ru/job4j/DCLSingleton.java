@@ -1,9 +1,5 @@
 package ru.job4j;
 
-
-
-
-
 public final class DCLSingleton {
 
     private static volatile DCLSingleton instance;

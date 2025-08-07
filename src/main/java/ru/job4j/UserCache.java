@@ -1,7 +1,5 @@
 package ru.job4j;
 
-
-
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -19,8 +17,7 @@ public class UserCache {
         return User.of(users.get(id).getName());
     }
 
-
-    public List <User> findAll(String name) {
+    public List<User> findAll(String name) {
 
         return Collections.singletonList(User.of(users.get(name).getName()));
     }

@@ -6,7 +6,6 @@ public class ThreadState {
                 () -> System.out.println(Thread.currentThread().getName()),
                 "first"//1 нить
 
-
         );
         Thread second = new Thread(
                 () -> System.out.println(Thread.currentThread().getName()),
@@ -21,9 +20,8 @@ public class ThreadState {
             System.out.println(second.getState());
         }
 
-
         System.out.println(first.getState());
 
-        System.out.println(second.getState());//ВЫВЕДЕТ TER НИТЬ ЗАВЕРШЕНА
+        System.out.println(second.getState()); //ВЫВЕДЕТ TER НИТЬ ЗАВЕРШЕНА
     }
 }

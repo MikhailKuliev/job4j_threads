@@ -54,6 +54,7 @@ class AccountStorageTest {
         assertThat(firstAccount.amount()).isEqualTo(0);
         assertThat(secondAccount.amount()).isEqualTo(200);
     }
+
     @Test
     void updateShouldReturnFalseWhenAccountNotExists() {
         AccountStorage storage = new AccountStorage();

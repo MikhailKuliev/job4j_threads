@@ -1,7 +1,5 @@
 package ru.job4j;
 
-
-
 public class User {
     private int id;
     private String name;
