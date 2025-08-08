@@ -1,13 +1,12 @@
 package ru.job4j;
 
 import java.io.BufferedInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 public class Wget implements Runnable {
+    private static final int BUFFER_SIZE = 1024;
     private final String url;
     private final String filename;
     private final int speed;
@@ -17,70 +16,58 @@ public class Wget implements Runnable {
         this.filename = filename;
         this.speed = speed;
     }
+
     @Override
     public void run() {
-        BufferedInputStream in = null;
-        FileOutputStream fout = null;
+        try (var in = new BufferedInputStream(new URL(url).openStream());
+             var fout = new FileOutputStream(filename)) {
 
-        try {
-            in = new BufferedInputStream(new URL(url).openStream());
-            fout = new FileOutputStream(filename);
-            byte[] buffer = new byte[1024];
-            int count;
+            byte[] buffer = new byte[BUFFER_SIZE];
+            int bytesRead;
             long totalBytes = 0;
             long startTime = System.currentTimeMillis();
 
-            while ((count = in.read(buffer, 0, buffer.length)) != -1) {
+            while ((bytesRead = in.read(buffer)) != -1) {
                 long chunkStart = System.nanoTime();
-                fout.write(buffer, 0, count);
-                totalBytes += count;
+                fout.write(buffer, 0, bytesRead);
+                totalBytes += bytesRead;
 
                 long chunkTime = System.nanoTime() - chunkStart;
                 double chunkTimeMs = chunkTime / 1_000_000.0;
-                double currentSpeed = count / chunkTimeMs;
+                double currentSpeed = bytesRead / chunkTimeMs;
 
                 if (currentSpeed > speed) {
-                    long requiredTime = (long) (count / (double) speed);
+                    long requiredTime = (long) (bytesRead / (double) speed);
                     long sleepTime = requiredTime - (long) chunkTimeMs;
                     if (sleepTime > 0) {
                         Thread.sleep(sleepTime);
                     }
                 }
             }
-            System.out.println("Загрузка завершена : " + totalBytes);
-
-        } catch (MalformedURLException e) {
+            System.out.println("Загрузка завершена: " + totalBytes + " байт");
+        } catch (IOException | InterruptedException e) {
             System.err.println("Ошибка: " + e.getMessage());
-        } catch (IOException e) {
-            System.err.println("Ошибка: " + e.getMessage());
-        } catch (InterruptedException e) {
-            System.err.println("Ошибка: " + e.getMessage());
-        } finally {
-            try {
-                if (in != null) {
-                    in.close();
-                }
-                if (fout != null) {
-                    fout.close();
-                }
-            } catch (IOException e) {
-                System.err.println("ошибка"  + e.getMessage());
-            }
+            Thread.currentThread().interrupt();
         }
     }
+
     public static void main(String[] args) throws InterruptedException {
         if (args.length != 3) {
-            System.out.println("Usage: java Wget <URL> <filename> <course_test>");
-            System.out.println("https://raw.githubusercontent.com/peterarsentev/course_test/master/pom.xml");
+            System.out.println("Usage: java Wget <URL> <filename> <speed_KBps>");
+            System.out.println("Пример: https://example.com/file.zip output.zip 100");
             return;
         }
+
         String url = args[0];
         String filename = args[1];
         int speed = Integer.parseInt(args[2]);
+
         if (speed <= 0) {
-            System.out.println("ошибка");
+            System.out.println("Скорость должна быть > 0");
             return;
-        } Thread wget = new Thread(new Wget(url, filename, speed));
+        }
+
+        Thread wget = new Thread(new Wget(url, filename, speed));
         wget.start();
         wget.join();
     }

@@ -11,6 +11,7 @@ public final class ImmutableNode<T> {
         this.next = next;
 
     }
+
     public ImmutableNode(T value) {
         this(value, null);
     }

@@ -3,7 +3,7 @@ package ru.job4j;
 public class Singleton {
     private static volatile Singleton instance;    //горантирует видимость изменений
 
-    private Singleton() {}
+    private Singleton() { }
 
     public static Singleton getInstance() {
 
