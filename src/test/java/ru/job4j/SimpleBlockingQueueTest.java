@@ -19,8 +19,7 @@ class SimpleBlockingQueueTest {
         Thread consumer = new Thread(() -> {
            try {
                receivedValue[0] = queue.poll();
-           }
-           catch (InterruptedException e) {
+           } catch (InterruptedException e) {
                Thread.currentThread().interrupt();
            }
         });
