@@ -13,7 +13,12 @@ class SimpleBlockingQueueTest {
         final int[] receivedValue = new int[1];
 
         Thread producer = new Thread(() -> {
-            queue.offer(testValue);
+           try {
+               queue.offer(testValue);
+
+           } catch (InterruptedException e) {
+               Thread.currentThread().interrupt();
+           }
 
         });
         Thread consumer = new Thread(() -> {
@@ -56,5 +61,4 @@ class SimpleBlockingQueueTest {
         consumer.join();
 
     }
-
 }
