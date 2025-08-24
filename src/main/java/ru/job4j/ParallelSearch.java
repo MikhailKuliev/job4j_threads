@@ -17,7 +17,6 @@ public class ParallelSearch {
                             if (item == null && producerFinished.getCount() == 0) {
                                 break;
 
-
                             }
                             if (item != null) {
                                 System.out.println(item);
