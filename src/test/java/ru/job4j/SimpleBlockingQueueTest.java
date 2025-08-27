@@ -1,64 +1,50 @@
 package ru.job4j;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 
-import java.util.concurrent.atomic.AtomicBoolean;
+import org.junit.Test;
 
-class SimpleBlockingQueueTest {
-    @Test
-    void whenProducerAddsElementThenConsumerReceivesIt() throws InterruptedException {
-        SimpleBlockingQueue<Integer> queue = new SimpleBlockingQueue<>();
-        final int testValue = 42;
-        final int[] receivedValue = new int[1];
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.stream.IntStream;
 
-        Thread producer = new Thread(() -> {
-            try {
-                queue.offer(testValue);
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
-
-        });
-        Thread consumer = new Thread(() -> {
-            try {
-                receivedValue[0] = queue.poll();
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
-        });
-        consumer.start();
-        Thread.sleep(100);
-        producer.start();
-
-        producer.join();
-        consumer.join();
-
-        Assertions.assertEquals(testValue, receivedValue[0]);
-
-    }
+public class SimpleBlockingQueueTest {
 
     @Test
-    void whenQueueIsEmptyThenConsumerWaits() throws InterruptedException {
-        SimpleBlockingQueue<String> queue = new SimpleBlockingQueue<>();
-        AtomicBoolean consumerFinished = new AtomicBoolean(false);
+    public void whenFetchAllThenGetIt() throws InterruptedException {
+    final CopyOnWriteArrayList<Integer>buffer = new CopyOnWriteArrayList<>();
+    final SimpleBlockingQueue<Integer>queue = new SimpleBlockingQueue<>(5);
 
-        Thread consumer = new Thread(() -> {
-            try {
-                queue.poll();
-                consumerFinished.set(true);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
-        });
-        consumer.start();
-        Thread.sleep(200);
-        Assertions.assertFalse(consumerFinished.get());
-        Assertions.assertEquals(Thread.State.WAITING, consumer.getState());
+    Thread producer = new Thread(() -> {
+      IntStream.range(0, 5).forEach(value -> {
+         try {
+             queue.offer(value);
 
-        consumer.interrupt();
-        consumer.join();
+         } catch (InterruptedException e) {
+             Thread.currentThread().interrupt();
+         }
+      });
+    });
 
+    Thread consumer = new Thread(() -> {
+       while (!(queue.size() ==0) || !Thread.currentThread().isInterrupted()) {
+           try {
+               buffer.add(queue.poll());
+           } catch (InterruptedException e) {
+               Thread.currentThread().interrupt();
+           }
+       }
+    });
+    producer.start();
+    consumer.start();
+
+    producer.join();
+
+    consumer.interrupt();
+
+    consumer.join();
+
+    assertThat(buffer.toArray(), is(new Integer[]{0, 1, 2, 3, 4}));
     }
-}
+    }
