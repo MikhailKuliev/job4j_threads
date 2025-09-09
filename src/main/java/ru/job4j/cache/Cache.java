@@ -1,4 +1,4 @@
-package ru.job4j.Cache;
+package ru.job4j.cache;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.Map;
@@ -22,7 +22,7 @@ public class Cache {
             if (stored.getVersion() != model.getVersion()) {
                 throw new OptimisticException("Versions are not equal");
             }
-            Base updated = new Base(model.getId(), model.getName(), stored.getVersion()+ 1);
+            Base updated = new Base(model.getId(), model.getName(), stored.getVersion() + 1);
             if (memory.replace(model.getId(), stored, updated)) {
                 return true;
             }
@@ -39,11 +39,13 @@ public class Cache {
                 .findFirst();
     }
 }
+
 class Base {
     private final int id;
     private final String name;
     private final int version;
-    public Base (int id, String name) {
+
+    public Base(int id, String name) {
         this(id, name, 0);
 
     }
@@ -53,16 +55,20 @@ class Base {
         this.name = name;
         this.version = version;
     }
+
     public int getId() {
         return id;
     }
+
     public String getName() {
         return name;
     }
+
     public int getVersion() {
         return version;
     }
 }
+
 class OptimisticException extends RuntimeException {
     public OptimisticException(String message) {
         super(message);

@@ -1,4 +1,4 @@
-package ru.job4j.Cache;
+package ru.job4j.cache;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,12 +17,14 @@ class CacheTest {
         cache = new Cache();
         testBase = new Base(1, "Test Base");
     }
+
     @Test
     void whenAddNewModelThenReturnsTrue() {
         Base base = new Base(1, "Test");
         boolean result = cache.add(base);
         assertThat(result).isTrue();
     }
+
     @Test
     void whenAddDuplicateIdThenReturnsFalse() {
         Base base1 = new Base(1, "first");
@@ -30,8 +32,8 @@ class CacheTest {
         cache.add(base1);
         boolean result = cache.add(base2);
         assertThat(result).isFalse();
-
     }
+
     @Test
     void whenUpdateWithCorrectVersionThenSuccess() throws OptimisticException {
         cache.add(testBase);
@@ -39,10 +41,11 @@ class CacheTest {
 
         boolean result = cache.update(updeted);
         assertThat(result).isTrue();
-        Optional<Base>stored = cache.findById(1);
+        Optional<Base> stored = cache.findById(1);
         assertThat(stored.get().getName()).isEqualTo("updeted");
         assertThat(stored.get().getVersion()).isEqualTo(1);
     }
+
     @Test
     void whenUpdateNonExistentModelThenThrowsException() {
     Base nonexistent = new Base(123, "nonexistent", 0);
@@ -50,20 +53,22 @@ class CacheTest {
     .isInstanceOf(OptimisticException.class)
             .hasMessageContaining("Model not found");
     }
+
     @Test
     void whenDeleteExistingModelThenItIsRemoved() {
         cache.add(testBase);
         cache.delete(1);
-        Optional<Base>result = cache.findById(1);
+        Optional<Base> result = cache.findById(1);
         assertThat(result).isEmpty();
     }
+
     @Test
     void whenDeleteNonExistentModelThenThrowsException() {
         assertThat(cache.findById(123)).isEmpty();
         cache.delete(123);
         assertThat(cache.findById(123)).isEmpty();
-
     }
+
     @Test
     public void whenAddFind() throws OptimisticException {
         var base = new Base(1,  "Base", 1);
@@ -94,6 +99,7 @@ class CacheTest {
         var find = cache.findById(base.getId());
         assertThat(find.isEmpty()).isTrue();
     }
+
     @Test
     void whenFindNonExistentModelThenReturnsEmpty() {
 
