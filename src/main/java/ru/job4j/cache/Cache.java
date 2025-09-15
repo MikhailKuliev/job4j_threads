@@ -14,19 +14,18 @@ public class Cache {
     }
 
     public boolean update(Base model) throws OptimisticException {
-        while (true) {
-            Base stored = memory.get(model.getId());
-            if (stored == null) {
-                throw new OptimisticException("Model not found");
-            }
-            if (stored.getVersion() != model.getVersion()) {
+        Base result = memory.computeIfPresent(model.getId(), (key, stored) -> {
+            if (model.getVersion() != stored.getVersion()) {
                 throw new OptimisticException("Versions are not equal");
+
             }
-            Base updated = new Base(model.getId(), model.getName(), stored.getVersion() + 1);
-            if (memory.replace(model.getId(), stored, updated)) {
-                return true;
-            }
+            return new Base(model.getId(), model.getName(), stored.getVersion() + 1);
+
+        });
+        if (result == null) {
+            throw new OptimisticException("Model not found");
         }
+        return true;
     }
 
     public void delete(int id) {
