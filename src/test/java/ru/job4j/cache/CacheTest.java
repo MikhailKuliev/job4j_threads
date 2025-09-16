@@ -47,14 +47,6 @@ class CacheTest {
     }
 
     @Test
-    void whenUpdateNonExistentModelThenThrowsException() {
-        Base nonexistent = new Base(123, "nonexistent", 0);
-        assertThatThrownBy(() -> cache.update(nonexistent))
-                .isInstanceOf(OptimisticException.class)
-                .hasMessageContaining("Model not found");
-    }
-
-    @Test
     void whenDeleteExistingModelThenItIsRemoved() {
         cache.add(testBase);
         cache.delete(1);

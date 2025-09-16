@@ -22,10 +22,7 @@ public class Cache {
             return new Base(model.getId(), model.getName(), stored.getVersion() + 1);
 
         });
-        if (result == null) {
-            throw new OptimisticException("Model not found");
-        }
-        return true;
+        return result != null;
     }
 
     public void delete(int id) {
