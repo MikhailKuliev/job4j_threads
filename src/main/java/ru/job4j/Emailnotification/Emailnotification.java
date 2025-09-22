@@ -1,4 +1,4 @@
-package ru.job4j.emailNotification;
+package ru.job4j.Emailnotification;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
