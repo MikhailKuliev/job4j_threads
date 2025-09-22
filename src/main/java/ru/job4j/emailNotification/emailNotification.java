@@ -1,4 +1,4 @@
-package ru.job4j.EmailNotification;
+package ru.job4j.emailNotification;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -21,10 +21,10 @@ class User {
     }
 }
 
-public class EmailNotification {
+public class emailNotification {
     ExecutorService pool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
 
-    public void EmailTo(User user) {
+    public void emailTo(User user) {
         pool.submit(() -> {
             String subject = "Notification %s to Email %s";
             String body = String.format(subject, user.getName(), user.getEmail());
@@ -32,7 +32,7 @@ public class EmailNotification {
         });
     }
 
-    public void send (String subject, String body, String email) {
+    public void send(String subject, String body, String email) {
         System.out.println("Sending email to " + email);
         System.out.println("Subject: " + subject);
         System.out.println("Body: " + body);
