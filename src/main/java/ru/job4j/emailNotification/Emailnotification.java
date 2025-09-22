@@ -21,7 +21,7 @@ class User {
     }
 }
 
-public class emailnotification {
+public class Emailnotification {
     ExecutorService pool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
 
     public void emailTo(User user) {
