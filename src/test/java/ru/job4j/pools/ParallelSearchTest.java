@@ -20,7 +20,7 @@ class ParallelSearchTest {
     }
 
     @Test
-    void searchWithStringArray_ShouldFindElement() {
+    void searchWithStringArrayShouldFindElement() {
         String[] array = {"cherry", "apple", "orange", "pineapple"};
         String target = "apple";
 
@@ -31,7 +31,7 @@ class ParallelSearchTest {
     }
 
     @Test
-    void searchWithSmallArray_ShouldUseLinearSearch() {
+    void searchWithSmallArrayShouldUseLinearSearch() {
         Integer[] array = {1, 2, 3, 4, 5};
         Integer target = 3;
         ParallelSearch<Integer> task = new ParallelSearch<>(array, target, 0, array.length);
@@ -41,7 +41,7 @@ class ParallelSearchTest {
     }
 
     @Test
-    void searchWithLargeArray_ShouldUseRecursiveSearch() {
+    void searchWithLargeArrayShouldUseRecursiveSearch() {
         Integer[] array = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24};
         Integer target = 20;
         ParallelSearch<Integer> task = new ParallelSearch<>(array, target, 0, array.length);
@@ -51,7 +51,7 @@ class ParallelSearchTest {
     }
 
     @Test
-   void searchWhenElementNotInArray_ShouldReturnNegativeOne() {
+   void searchWhenElementNotInArrayShouldReturnNegativeOne() {
         Integer[] array = {1, 2, 3, 4, 5, 6, 7, 8, 9};
         Integer target = 101;
         ParallelSearch<Integer> task = new ParallelSearch<>(array, target, 0, array.length);

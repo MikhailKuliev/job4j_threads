@@ -3,7 +3,7 @@ package ru.job4j.pools;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.RecursiveTask;
 
-public class ParallelSearch <T> extends RecursiveTask<Integer> {
+public class ParallelSearch<T> extends RecursiveTask<Integer> {
     private final T[] array;
     private final T target;
     private final int from;
