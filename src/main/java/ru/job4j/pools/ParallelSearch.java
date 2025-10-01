@@ -17,6 +17,19 @@ public class ParallelSearch<T> extends RecursiveTask<Integer> {
         this.to = to;
     }
 
+    public static <T> int parallelSearch(T[] array, T target, int from, int to) {
+        if (array == null || array.length == 0) {
+            return -1;
+        }
+        ForkJoinPool forkJoinPool = new ForkJoinPool();
+        try {
+            ParallelSearch<T> task = new ParallelSearch<T>(array, target, from, to);
+            return forkJoinPool.invoke(task);
+        } finally {
+            forkJoinPool.shutdown();
+        }
+    }
+
      @Override
     protected Integer compute() {
         if (to - from < THRESHOLD) {
